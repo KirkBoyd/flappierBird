@@ -1,4 +1,14 @@
+/* IMU LIBRARIES */
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+/* RADIO LIBRARIES */
+#include <SPI.h>
+#include <RFM69.h>
+/* OTHER LIBRARIES */
 #include <Servo.h>
+/* PINS */
 #define D0 2 //digital pin 2 for D0 pin on radio
 #define esc 3 //digital pin 3 for ESC
 #define gate 4 //digital pin 4 for solenoid gate pin
@@ -21,7 +31,9 @@
 #define INT 22 //digital pin 22 for int pin on IMU (likely won't be used)
 #define adr 23 //digital pin 23 for adr pin on IMU (likely won't be used)
 #define r 29 //digital pin 29 for R pin on radio
+#define BNO055_SAMPLERATE_DELAY_MS (100) //delay used between fresh samples
 
+Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); //I2C adress for IMU
 Servo servo1;
 Servo servo2;
 
@@ -32,6 +44,16 @@ void setup() {
   servo2.attach(srv2);
   servo1.write(90);
   servo2.write(90);
+
+  if (!bno.begin()) {
+    Serial.print("No BNO055 detected");
+    while(1);
+  }
+  delay(1000);
+  printTemp();
+  displaySensorDetails();
+  displaySensorStatus();
+  bno.setExtCrystalUse(true);
 }
 
 void loop() {
