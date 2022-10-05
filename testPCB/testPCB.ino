@@ -37,6 +37,8 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); //I2C adress for IMU
 Servo servo1;
 Servo servo2;
 
+int poop = 9;
+
 void setup() {
   pinMode(hall1,INPUT);
 //  pinMode(srv1,OUTPUT);
