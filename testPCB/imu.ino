@@ -1,4 +1,15 @@
-
+/* Test Function to get Single Data Pieces from IMU */
+int getIMUdata(){
+//  sensors_event_t orientationData , angVelocityData , linearAccelData, magnetometerData, accelerometerData, gravityData;
+//  bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
+//  bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
+//  bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
+//  bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+//  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
+//  bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
+  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+//  z = euler.z();
+}
 /**************************************************************************/
 /*
     Displays some basic information on this sensor from the unified
@@ -59,10 +70,7 @@ void displayCalStatus(void)
 
   /* The data should be ignored until the system calibration is > 0 */
   Serial.print("\t");
-  if (!system)
-  {
-    Serial.print("! ");
-  }
+  if (!system){ Serial.print("! "); }
 
   /* Display the individual values */
   Serial.print("Sys:");

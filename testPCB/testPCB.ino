@@ -33,20 +33,58 @@
 #define r 29 //digital pin 29 for R pin on radio
 #define BNO055_SAMPLERATE_DELAY_MS (100) //delay used between fresh samples
 
+/************** IMU Setup ***************/
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); //I2C adress for IMU
+
+/************** Radio Setup ***********/
+// Addresses for this node. CHANGE THESE FOR EACH NODE!
+
+#define NETWORKID     10   // Must be the same for all nodes
+#define MYNODEID      1   // My node ID
+#define TONODEID      2   // Destination node ID
+#define FREQUENCY     RF69_915MHZ // RFM69 frequency 
+// AES encryption (or not):
+#define ENCRYPT       false // Set to "true" to use encryption
+#define ENCRYPTKEY    "TOPSECRETPASSWRD" // Use the same 16-byte key on all nodes
+#define USEACK        false //true //false // Request ACKs (or not)
+// #define LED           9 // LED positive pin // Packet sent/received indicator LED (optional)
+// #define GND           8 // LED ground pin // Packet sent/received indicator LED (optional)
+#define PACKSIZE 18 // Maximum Packetsize if 3 digit x, y and negative 3 digit angle
+RFM69 radio; // Create library object for RFM69HCW:
+int rxcoor, rycoor, bxcoor, bycoor,yxcoor, yycoor;
+
+/************** Servo Setup ***********/
 Servo servo1;
 Servo servo2;
-
 int poop = 9;
 
+/*********** MAIN CODE **************/
 void setup() {
+  /* Init Serial Monitor for Debug */
+  Serial.begin(9600);
+  
+  /* Init Servos & Sensors */
   pinMode(hall1,INPUT);
-//  pinMode(srv1,OUTPUT);
+  pinMode(hall2,INPUT);
+  pinMode(srv1,OUTPUT);
   servo1.attach(srv1);
   servo2.attach(srv2);
   servo1.write(90);
   servo2.write(90);
-
+  
+  /* Init Radio */
+  randomSeed(analogRead(0));
+  Serial.begin(9600);
+  Serial.print("Starting...\n");
+  Serial.print("Node ");
+  Serial.print(MYNODEID,DEC);
+  Serial.println(" ready");  
+  radio.initialize(FREQUENCY, MYNODEID, NETWORKID); // Initialize the RFM69HCW:
+  radio.setHighPower(); // Always use this for RFM69HCW
+  if (ENCRYPT) // Turn on encryption if desired:
+    radio.encrypt(ENCRYPTKEY);
+  
+  /* Init IMU */
   if (!bno.begin()) {
     Serial.print("No BNO055 detected");
     while(1);
@@ -59,6 +97,23 @@ void setup() {
 }
 
 void loop() {
+  /* Radio Dynamic Variables */
+//  static int i = 0;
+//  int j;
+//  char buf[32];
+//  char data[PACKSIZE];
+//  static int sendlength = 0;
+//  dataXmitLCD();
+// Serial.println(analogRead(hall1));
+//  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+//  z = euler.z();
+//  Serial.println(euler.z());
+//  dataOut();
+//  delay(1000);
+  dataXmitLCD();
+}
+
+void servoTest() {
   for (int i=0 ; i<=180 ; i++){
     servo2.write(i);
     delay(10);

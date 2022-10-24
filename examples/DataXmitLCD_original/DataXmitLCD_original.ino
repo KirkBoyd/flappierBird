@@ -120,8 +120,7 @@ void loop()
        lcd.setCursor(0,1); //Blue and yellow ball coords on 2nd line
        sendPacket(data, sendlength);
        sendlength = 0; // reset the packet
-//       delay(50);
-        lcd.setCursor(0,0);
+      lcd.setCursor(0,0);
       if (i%20==0) lcd.print("->"); // Activity characters. Shows in top right.
       else if (i%10==0) lcd.print("> "); // Activity characters. Shows in top right.
       }
