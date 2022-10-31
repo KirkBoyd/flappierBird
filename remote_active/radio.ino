@@ -1,4 +1,4 @@
-// function: 
+/* function:  -  */ 
 void sendRemotePacket() {
 //    static int i = 0;
 //    int j;
@@ -19,7 +19,7 @@ void sendRemotePacket() {
       sendlength = 0;
 }
 
-// function: 
+/* function:  -  */ 
 void sendPacket(char packet[], int plength) {
 //    Serial.println(packet); // Send to serial monitor
     Serial.print("Node Target: ");
@@ -36,7 +36,7 @@ void sendPacket(char packet[], int plength) {
     else{ radio.send(TONODEID, packet, plength); } // don't use ACK
 }
 
-// function: 
+/* function:  -  */ 
 void dataXmitLCD () {
     static int i = 0;
 //    int j;
@@ -65,7 +65,7 @@ void dataXmitLCD () {
     }
 }
 
-// function: 
+/* function:  -  */ 
 void Blink(byte PIN, int DELAY_MS){
 // Blink an LED for a given number of ms
   digitalWrite(PIN,HIGH);
@@ -73,7 +73,7 @@ void Blink(byte PIN, int DELAY_MS){
   digitalWrite(PIN,LOW);
 }
 
-// function: 
+/* function:  -  */ 
 void getPacket(){
     if (radio.receiveDone()){ // Got one!
     // Print out the information:

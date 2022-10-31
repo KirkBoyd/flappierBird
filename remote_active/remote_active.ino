@@ -224,7 +224,8 @@ void loop() {
   //  Serial.println(sizeof(test));
 }
 
-// function: initPins() - all of the pin initialization lines, offloaded to make setup loop more legible
+/* function:  initPins() - all of the pin initialization lines, 
+ * offloaded to make setup loop more legible */
 void initPins() {
   pinMode(kSwitch,  INPUT_PULLUP);
   pinMode(joyAx,    INPUT);

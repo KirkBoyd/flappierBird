@@ -1,4 +1,4 @@
-// function: 
+/* function: printSticksLcd() -  prints all joystick values to LCD screen on remote*/ 
 void printSticksLcd(){
   //print joystick A info
   lcd.clear();
@@ -24,7 +24,7 @@ void printSticksLcd(){
   //delay(200);
 }
 
-// function: 
+/* function: printSticksSerial() - prints raw analog joystick values to serial monitor */ 
 void printSticksSerial(){
   //print joystick A info
   Serial.print("\nAx: ");
@@ -39,14 +39,14 @@ void printSticksSerial(){
   Serial.print("\t Bx: ");
   Serial.print(analogRead(joyBx));
   Serial.print("\t By: ");
-  Serial.print(1023 - analogRead(joyBy));
+  Serial.print(analogRead(joyBy));
 //  Serial.print("\t Bz: ");
 //  Serial.print(analogRead(joyBz));
   Serial.print("\t BT: ");
   Serial.print(digitalRead(joyTrigB));
 }
 
-// function: 
+/* function: printSticksSendingSerial() - prints properly aligned/shifted joystick values to Serial monitor */ 
 void printSticksSendingSerial(){
   //print joystick A info
   Serial.print("\nAx: ");
@@ -68,7 +68,7 @@ void printSticksSendingSerial(){
   Serial.print(data_robomote.Btrig);
 }
 
-// function: 
+/* function: printStickDirs() - prints converted directional joystick values */ 
 void printStickDirs(){
   //print joystick A info
   Serial.print("\nAx: ");
@@ -90,7 +90,7 @@ void printStickDirs(){
   Serial.print(stickDirBtrig);
 }
 
-// function: 
+/* function: printBirdo() - prints sensor data from bird to serial monitor */ 
 void printBirdo(){
   Serial.print("\nHall1: ");
   Serial.print(data_birdo.hall1);
