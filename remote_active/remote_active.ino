@@ -157,7 +157,7 @@ int birdsEyeX = 1000;
 int lastBirdsEyeX = 1000;
 int birdsEyeY = 1000;
 int lastBirdsEyeY = 1000;
-int kill = 0;
+bool kill = false;
 int lastKill = 0;
 int flapRate = 100;
 int lastFlapRate = 100;
@@ -194,14 +194,14 @@ void setup() {
 }
 
 void loop() {
-  kill = !digitalRead(kSwitch);
+  killCheck();
   /****** Main Logic *******/
     readSticks();
     stickDirections();
     birdsEyeMap();
     throttleCheck();
     packSize = getPackSize(kill,flapRate,birdsEyeX,birdsEyeY);
-  if (kill == 1) { sendRemotePacket(); }
+  if (kill) { sendRemotePacket(); }
   else if (packetChanged()) { 
     sendRemotePacket(); 
     lastFlapRate = flapRate;

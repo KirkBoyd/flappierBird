@@ -1,3 +1,9 @@
+/* function: killCheck() - reads killswitch and sets to kill to true when button is moved to the "kill" position */
+void killCheck() {
+  if(analogRead(kSwitch) == 1){ kill = true; }
+  else{ kill = false; }
+}
+
 /* function: birdsEyeMap() - uses stick B to move around a set point in x,y coordinates
  * viewed from above (bird's eye view) to tell bird where to go */
 void birdsEyeMap() {
@@ -9,12 +15,10 @@ void birdsEyeMap() {
 
 /* function: throttleCheck() - reads stick A up and down to control flapRate */
 void throttleCheck(){
-  if (!kill) {
+  if (kill) { flapRate = 100; }
+  else{
     if (flapRate < 357 && stickDirAy > 0) {flapRate++; }
     else if (flapRate > 100 && stickDirAy < 0) { flapRate--; }
-  }
-  else{
-    flapRate = 100;
   }
 }
 
