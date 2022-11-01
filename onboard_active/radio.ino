@@ -1,3 +1,14 @@
+/* function:  -  */ 
+void sendOnboardPacket() {
+    char data[PACKSIZE];
+    static int sendlength = 0;
+//    sprintf(data, "x%d y%d z%d h%d", kill, flapRate, birdsEyeX, birdsEyeY);
+    sendlength = sizeof(data); // measure the constructed packet
+    sendPacket(data, sendlength);
+    Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
+    sendlength = 0;
+}
+
 void getRemotePacket(){
   if(radio.receiveDone()){
         // Print out the information:

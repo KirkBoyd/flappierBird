@@ -75,6 +75,10 @@ char digit1;
 char digit2;
 char digit3;
 char digit4;
+int accelX;
+int accelY;
+int accelZ;
+int hallData;
 
 /*********** MAIN CODE **************/
 void setup() {
@@ -121,6 +125,7 @@ void loop() {
   /*** Main Logic ***/
   if (kill == 1) {ESC.write(0);}
 //  calib();
+  checkHall();
   getRemotePacket();
 //  throttle();
 //  trim();
@@ -148,4 +153,8 @@ void servoTest() {
     servo2.write(i);
     delay(10);
   }
+}
+
+void checkHall(){
+  hallData = analogRead(hall1);
 }
