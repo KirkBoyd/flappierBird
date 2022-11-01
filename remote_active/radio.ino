@@ -1,35 +1,22 @@
 /* function:  -  */ 
 void sendRemotePacket() {
-//    static int i = 0;
-//    int j;
-//    char buf[32];
     char data[PACKSIZE];
     static int sendlength = 0;
-      // Construct a packet called data.
-//      Serial.print("Going to send z: ");
-//      Serial.print( zdata );
-//      sprintf(data, "x%d y%d x%d y%d", birdsEyeX, birdsEyeY, birdsEyeX, birdsEyeY);
     sprintf(data, "k%d f%d x%d y%d", kill, flapRate, birdsEyeX, birdsEyeY);
-//    data = (char)"k"+(char)kill+(char)" "+(char)"f"+flapRate+(char)" "+(char)"x"+birdsEyeX+(char)" "+(char)"y"+birdsEyeY;
-//      Serial.print(" | Packet: " );
-//      Serial.println(data);
-      sendlength = sizeof(data); // measure the constructed packet
-      sendPacket(data, sendlength);
-      Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
-      sendlength = 0;
+    sendlength = sizeof(data); // measure the constructed packet
+    sendPacket(data, sendlength);
+    Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
+    sendlength = 0;
 }
 
 /* function:  -  */ 
 void sendPacket(char packet[], int plength) {
-//    Serial.println(packet); // Send to serial monitor
     Serial.print("Node Target: ");
     Serial.print(TONODEID, DEC);
     Serial.print(", message [");
     Serial.print(packet);
-//    for (byte i = 0; i < plength; i++) { Serial.print(packet[i]); }
     Serial.println("]");
-    // There are two ways to send packets. If you want acknowledgements, use sendWithRetry():
-    if (USEACK) {
+    if (USEACK) { // There are two ways to send packets. If you want acknowledgements, use sendWithRetry():
       if (radio.sendWithRetry(TONODEID, packet, plength)) { Serial.println("ACK received!"); }
       else { Serial.println("no ACK received"); }
     }

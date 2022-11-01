@@ -1,6 +1,6 @@
 /* function: killCheck() - reads killswitch and sets to kill to true when button is moved to the "kill" position */
 void killCheck() {
-  if(analogRead(kSwitch) == 1){ kill = true; }
+  if(digitalRead(kSwitch) == 1){ kill = true; }
   else{ kill = false; }
 }
 

@@ -20,3 +20,7 @@ void roll(){
   }
   else servo2.write(0);
 }
+void calib(){
+  servo1.write(90);
+  servo2.write(90);
+}

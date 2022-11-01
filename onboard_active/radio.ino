@@ -1,3 +1,76 @@
+void getRemotePacket(){
+  if(radio.receiveDone()){
+        // Print out the information:
+    Serial.print("FromNode: ");
+    Serial.print(radio.SENDERID, DEC);
+    // RSSI is the "Receive Signal Strength Indicator",
+    // smaller numbers mean higher power.
+    Serial.print(", RSSI ");
+    Serial.print(radio.RSSI);
+//    Serial.print(", kill: ");
+//    Serial.print(kill);
+//    Serial.print(", flapRate: ");
+//    Serial.print(flapRate);
+//    Serial.print(", x: ");
+//    Serial.print(birdsEyeX);
+//    Serial.print(", y: ");
+//    Serial.println(birdsEyeY);
+    // The actual message is contained in the DATA array,
+    // and is DATALEN bytes in size:
+    for (byte i = 0; i < radio.DATALEN; i++)
+      data[i] = radio.DATA[i];
+    Serial.print(", data: ");
+    Serial.println(data);
+    
+    for (byte i = 0; i < radio.DATALEN; i++) {
+      current = data[i];
+//      Serial.print("current: ");
+//      Serial.print(current);
+//      Serial.print(", val: ");
+//      Serial.println((int)current);
+      if((int)current == (int)'k'){ 
+        kill = (int)data[i+1] - '0';
+//        i++; 
+        }
+      else if((int)current == (int)'f'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        flapRate = char2int3(digit1, digit2, digit3) - 101;
+//        i = i+3;
+      }
+      else if((int)current == (int)'x'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        birdsEyeX = char2int4(digit1, digit2, digit3, digit4) - 1000;
+//        i = i+4;
+      }
+      else if((int)current == (int)'y'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        birdsEyeY = char2int4(digit1, digit2, digit3, digit4) - 1000;
+//        i = i+4;
+      }
+      else{
+        digit1 = '\0';
+        digit2 = (char)0;
+        digit3 = (char)0;
+        digit4 = (char)0;
+      }
+    }
+    //Serial.print((char)radio.DATA[i]);
+    // Send an ACK if requested.
+    if (radio.ACKRequested()) {
+      radio.sendACK();
+      Serial.println("ACK sent");
+    }
+    Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
+  }
+}
 void dataOut () {
     static int i = 0;
     int j;
