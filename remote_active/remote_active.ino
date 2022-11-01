@@ -1,8 +1,8 @@
 /**************************************************
-   Robomote - Flappier Bird
+   remote_active - Flappier Bird
    Teensy 4.0
    Kirk Boyd
-   10/24/2022
+   10/31/2022
  *************************************************/
 /* LCD Libraries */
 #include <Wire.h>

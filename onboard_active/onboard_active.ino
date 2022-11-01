@@ -1,3 +1,9 @@
+/**************************************************
+   onboard_active - Flappier Bird
+   Teensy 4.0
+   Kirk Boyd
+   10/31/2022
+ *************************************************/
 /* IMU LIBRARIES */
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
