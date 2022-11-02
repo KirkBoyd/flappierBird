@@ -92,7 +92,8 @@ void setup() {
   servo1.attach(srv1);
   servo2.attach(srv2);
   ESC.attach(esc);
-  ESC.write(0);
+  ESC.write(5);
+  delay(2000);
   servo1.write(90);
   servo2.write(90);
   
@@ -125,11 +126,15 @@ void loop() {
   /*** Main Logic ***/
   if (kill == 1) {ESC.write(0);}
 //  calib();
-  checkHall();
-  getRemotePacket();
-//  throttle();
-//  trim();
-//  roll();
+//  checkHall();
+//  getRot();
+  if (radio.receiveDone()){ // Got one!
+    getRemotePacket();
+  }
+//  else{  sendOnboardPacket(); }
+  throttle();
+  trim();
+  roll();
   /*** End Main Logic ***/
   /* Radio Dynamic Variables */
 //  static int i = 0;
@@ -157,4 +162,11 @@ void servoTest() {
 
 void checkHall(){
   hallData = analogRead(hall1);
+}
+
+void getRot(){
+  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+  accelX = (int)euler.x() + 1000;
+  accelY = (int)euler.y() + 1000;
+  accelZ = (int)euler.z() + 1000;
 }

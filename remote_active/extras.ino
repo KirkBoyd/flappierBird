@@ -47,13 +47,13 @@ int char2int3(char digit1, char digit2, char digit3){
 
 /* function:  -  */ 
 int char2int3verbose(char digit1, char digit2, char digit3){
-    char digit1 = '6';
+//  char digit1 = '6';
   Serial.print("digit1: ");
   Serial.print(digit1);
-  char digit2 = '9';
+//  char digit2 = '9';
   Serial.print(" digit2: ");
   Serial.print(digit2);
-  char digit3 = '6';
+//  char digit3 = '6';
   Serial.print(" digit3: ");
   Serial.println(digit3);
   Serial.print("(int)digit1: ");
@@ -76,13 +76,13 @@ int char2int3verbose(char digit1, char digit2, char digit3){
 
 /* function:  -  */ 
 int char2int4verbose(char digit1, char digit2, char digit3, char digit4){
-  char digit1 = '6';
+//  char digit1 = '6';
   Serial.print("digit1: ");
   Serial.print(digit1);
-  char digit2 = '9';
+//  char digit2 = '9';
   Serial.print(" digit2: ");
   Serial.print(digit2);
-  char digit3 = '6';
+//  char digit3 = '6';
   Serial.print(" digit3: ");
   Serial.println(digit3);
   Serial.print("(int)digit1: ");

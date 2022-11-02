@@ -153,19 +153,25 @@ int stickDirs[8];
 //int packetLength;
 //char packet[];
 
-int birdsEyeX = 1000;
-int lastBirdsEyeX = 1000;
-int birdsEyeY = 1000;
-int lastBirdsEyeY = 1000;
+int birdsEyeX = 5000;
+int lastBirdsEyeX = 5000;
+int birdsEyeY = 5000;
+int lastBirdsEyeY = 5000;
 bool kill = false;
 int lastKill = 0;
-int flapRate = 100;
-int lastFlapRate = 100;
+int flapRate = 0;
+int lastFlapRate = 0;
 int packSize = 0;
 char digit1;
 char digit2;
 char digit3;
 char digit4;
+char current;
+int accelX;
+int accelY;
+int accelZ;
+int hallData;
+int cruiseRate = 100; // GUESSED FOR NOW: Flap rate to hold altitude / cruise
 
 void setup() {
   initPins();
@@ -188,27 +194,35 @@ void setup() {
   lcd.init(); //initialize again? (Idk this was in the example)
   lcd.backlight(); //activate backlight on the screen
   lcd.print("Robomote Init");
-
+  
   /* Testing */
 
 }
 
 void loop() {
-  killCheck();
-  /****** Main Logic *******/
+  
+  /****************** Main Logic *****************/
+    killCheck();
     readSticks();
     stickDirections();
+    if (data_robomote.Btrig == 1){ // if right trigger is pressed, come home
+      birdsEyeX = 5000;
+      birdsEyeY = 5000;
+    }
+    if (data_robomote.Atrig == 1){ // if left trigger is pressed, set to cruise flapRate
+      flapRate = cruiseRate;
+    }
     birdsEyeMap();
     throttleCheck();
     packSize = getPackSize(kill,flapRate,birdsEyeX,birdsEyeY);
-  if (kill) { sendRemotePacket(); }
-  else if (packetChanged()) { 
-    sendRemotePacket(); 
-    lastFlapRate = flapRate;
-    lastBirdsEyeX = birdsEyeX;
-    lastBirdsEyeY = birdsEyeY;
-  }
-  /**** End Main Logic ****/
+    if (kill) { sendRemotePacket(); }
+    else if (packetChanged()) { 
+        sendRemotePacket(); 
+        lastFlapRate = flapRate;
+        lastBirdsEyeX = birdsEyeX;
+        lastBirdsEyeY = birdsEyeY;
+    }
+  /**************** End Main Logic ****************/
 //  Serial.println(digitalRead(kSwitch));
   //  sendRemotePacket(packSize);
   //  printSticksSerial();
@@ -231,11 +245,11 @@ void initPins() {
   pinMode(joyAx,    INPUT);
   pinMode(joyAy,    INPUT);
   pinMode(joyAz,    INPUT);
-  pinMode(joyTrigA, INPUT);
+  pinMode(joyTrigA, INPUT_PULLDOWN);
   pinMode(joyBx,    INPUT);
   pinMode(joyBy,    INPUT);
   pinMode(joyBz,    INPUT);
-  pinMode(joyTrigB, INPUT);
+  pinMode(joyTrigB, INPUT_PULLDOWN);
   pinMode(lcdSCL,   OUTPUT);
   pinMode(lcdSDA,   OUTPUT);
 }

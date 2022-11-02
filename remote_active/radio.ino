@@ -1,8 +1,79 @@
+void getOnboardPacket(){
+  char data[PACKSIZE];
+  if(radio.receiveDone()){
+        // Print out the information:
+    Serial.print("FromNode: ");
+    Serial.print(radio.SENDERID, DEC);
+    // RSSI is the "Receive Signal Strength Indicator",
+    // smaller numbers mean higher power.
+    Serial.print(", RSSI ");
+    Serial.print(radio.RSSI);
+    // The actual message is contained in the DATA array,
+    // and is DATALEN bytes in size:
+    for (byte i = 0; i < radio.DATALEN; i++)
+      data[i] = radio.DATA[i];
+    Serial.print(", data: ");
+    Serial.println(data);
+    
+    for (byte i = 0; i < radio.DATALEN; i++) {
+      current = data[i];
+//      Serial.print("current: ");
+//      Serial.print(current);
+//      Serial.print(", val: ");
+//      Serial.println((int)current);
+      if((int)current == (int)'x'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        accelX = char2int3(digit1, digit2, digit3) - 1000;
+//        i++; 
+        }
+      else if((int)current == (int)'y'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        accelY = char2int3(digit1, digit2, digit3) - 1000;
+//        i = i+3;
+      }
+      else if((int)current == (int)'z'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        accelZ = char2int4(digit1, digit2, digit3, digit4) - 1000;
+//        i = i+4;
+      }
+      else if((int)current == (int)'h'){ 
+        digit1 = data[i+1];
+        digit2 = data[i+2];
+        digit3 = data[i+3];
+        digit4 = data[i+4];
+        hallData = char2int4(digit1, digit2, digit3, digit4) - 1000;
+//        i = i+4;
+      }
+      else{
+        digit1 = '\0';
+        digit2 = (char)0;
+        digit3 = (char)0;
+        digit4 = (char)0;
+      }
+    }
+    //Serial.print((char)radio.DATA[i]);
+    // Send an ACK if requested.
+    if (radio.ACKRequested()) {
+      radio.sendACK();
+      Serial.println("ACK sent");
+    }
+    Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
+  }
+}
 /* function:  -  */ 
 void sendRemotePacket() {
     char data[PACKSIZE];
     static int sendlength = 0;
-    sprintf(data, "k%d f%d x%d y%d", kill, flapRate, birdsEyeX, birdsEyeY);
+    sprintf(data, "k%d f%d x%d y%d", kill, (flapRate+100), (birdsEyeX+1000), (birdsEyeY+1000));
     sendlength = sizeof(data); // measure the constructed packet
     sendPacket(data, sendlength);
     Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.

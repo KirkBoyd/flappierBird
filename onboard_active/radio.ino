@@ -2,7 +2,7 @@
 void sendOnboardPacket() {
     char data[PACKSIZE];
     static int sendlength = 0;
-//    sprintf(data, "x%d y%d z%d h%d", kill, flapRate, birdsEyeX, birdsEyeY);
+    sprintf(data, "x%d y%d z%d h%d", accelX, accelY, accelZ, hallData);
     sendlength = sizeof(data); // measure the constructed packet
     sendPacket(data, sendlength);
     Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
@@ -10,7 +10,7 @@ void sendOnboardPacket() {
 }
 
 void getRemotePacket(){
-  if(radio.receiveDone()){
+//  if(radio.receiveDone()){
         // Print out the information:
     Serial.print("FromNode: ");
     Serial.print(radio.SENDERID, DEC);
@@ -30,8 +30,8 @@ void getRemotePacket(){
     // and is DATALEN bytes in size:
     for (byte i = 0; i < radio.DATALEN; i++)
       data[i] = radio.DATA[i];
-    Serial.print(", data: ");
-    Serial.println(data);
+//    Serial.print(", data: ");
+//    Serial.println(data);
     
     for (byte i = 0; i < radio.DATALEN; i++) {
       current = data[i];
@@ -47,7 +47,7 @@ void getRemotePacket(){
         digit1 = data[i+1];
         digit2 = data[i+2];
         digit3 = data[i+3];
-        flapRate = char2int3(digit1, digit2, digit3) - 101;
+        flapRate = char2int3(digit1, digit2, digit3) - 100;
 //        i = i+3;
       }
       else if((int)current == (int)'x'){ 
@@ -55,7 +55,7 @@ void getRemotePacket(){
         digit2 = data[i+2];
         digit3 = data[i+3];
         digit4 = data[i+4];
-        birdsEyeX = char2int4(digit1, digit2, digit3, digit4) - 1000;
+        birdsEyeX = char2int4(digit1, digit2, digit3, digit4) - 6000;
 //        i = i+4;
       }
       else if((int)current == (int)'y'){ 
@@ -63,7 +63,7 @@ void getRemotePacket(){
         digit2 = data[i+2];
         digit3 = data[i+3];
         digit4 = data[i+4];
-        birdsEyeY = char2int4(digit1, digit2, digit3, digit4) - 1000;
+        birdsEyeY = char2int4(digit1, digit2, digit3, digit4) - 6000;
 //        i = i+4;
       }
       else{
@@ -79,8 +79,16 @@ void getRemotePacket(){
       radio.sendACK();
       Serial.println("ACK sent");
     }
+    Serial.print(", kill: ");
+    Serial.print(kill);
+    Serial.print(", flapRate: ");
+    Serial.print(flapRate);
+    Serial.print(", x: ");
+    Serial.print(birdsEyeX);
+    Serial.print(", y: ");
+    Serial.println(birdsEyeY);
     Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
-  }
+//  }
 }
 void dataOut () {
     static int i = 0;
@@ -153,7 +161,7 @@ void Blink(byte PIN, int DELAY_MS){
   digitalWrite(PIN,LOW);
 }
 void getPacket(){
-    if (radio.receiveDone()){ // Got one!
+//    if (radio.receiveDone()){ // Got one!
       // Print out the information:
       Serial.print("received from node ");
       Serial.print(radio.SENDERID, DEC);
@@ -176,5 +184,5 @@ void getPacket(){
         Serial.println("ACK sent");
       }
       Blink(LED,10); // This will slow down the code, so comment it out for maximum speed.
-    }
+//    }
 }

@@ -1,3 +1,11 @@
+/* function: printTrigs() - print joystick button/trigger values */
+void printTrigs(){
+    Serial.print("TrigA: ");
+    Serial.print(data_robomote.Atrig);
+    Serial.print(", TrigB: ");
+    Serial.println(data_robomote.Btrig);
+}
+
 /* function: printSticksLcd() -  prints all joystick values to LCD screen on remote*/ 
 void printSticksLcd(){
   //print joystick A info

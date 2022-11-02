@@ -1,6 +1,6 @@
 /* function: killCheck() - reads killswitch and sets to kill to true when button is moved to the "kill" position */
 void killCheck() {
-  if(digitalRead(kSwitch) == 1){ kill = true; }
+  if(digitalRead(kSwitch) == 0){ kill = true; }
   else{ kill = false; }
 }
 
@@ -11,14 +11,16 @@ void birdsEyeMap() {
   else if (stickDirBx < 0) { birdsEyeX --; }
   if (stickDirBy > 0) { birdsEyeY ++; }
   else if (stickDirBy < 0) { birdsEyeY --; }
+  if( birdsEyeX < 0) { birdsEyeX = 0; }
+  if( birdsEyeY < 0) { birdsEyeY = 0; }
 }
 
 /* function: throttleCheck() - reads stick A up and down to control flapRate */
 void throttleCheck(){
-  if (kill) { flapRate = 100; }
+  if (kill) { flapRate = 0; }
   else{
-    if (flapRate < 357 && stickDirAy > 0) {flapRate++; }
-    else if (flapRate > 100 && stickDirAy < 0) { flapRate--; }
+    if (flapRate < 255 && stickDirAy > 0) {flapRate++; }
+    else if (flapRate > 0 && stickDirAy < 0) { flapRate--; }
   }
 }
 
