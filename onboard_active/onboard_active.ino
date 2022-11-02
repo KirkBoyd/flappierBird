@@ -79,6 +79,10 @@ int accelX;
 int accelY;
 int accelZ;
 int hallData;
+double xGrav = -100000; 
+double yGrav = -1000000; 
+double zGrav = -1000000; //dumb values, easy to spot problem
+double yGravTol;
 
 /*********** MAIN CODE **************/
 void setup() {
@@ -127,15 +131,25 @@ void loop() {
   if (kill == 1) {ESC.write(0);}
 //  calib();
 //  checkHall();
-//  getRot();
-  if (radio.receiveDone()){ // Got one!
-    getRemotePacket();
-  }
+  getIMUdata();
+//  if (radio.receiveDone()){ // Got one!
+//    getRemotePacket();
+//  }
 //  else{  sendOnboardPacket(); }
-  throttle();
+//  throttle();
   trim();
-  roll();
+//    Tolerance for y gravity component. Desired: x = 0
+ 
+//  roll();
   /*** End Main Logic ***/
+//  Testing
+  Serial.print("\tx= ");
+  Serial.print(xGrav);
+  Serial.print(" |\ty= ");
+  Serial.print(yGrav);
+  Serial.print(" |\tz= ");
+  Serial.println(zGrav);
+  
   /* Radio Dynamic Variables */
 //  static int i = 0;
 //  int j;
@@ -145,6 +159,7 @@ void loop() {
 //  dataXmitLCD();
 // Serial.println(analogRead(hall1));
 //  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+    imu::Vector<3> grav = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 //  z = euler.z();
 //  Serial.println(euler.z());
 //  dataOut();

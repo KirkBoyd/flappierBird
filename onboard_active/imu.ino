@@ -1,5 +1,5 @@
 /* Test Function to get Single Data Pieces from IMU */
-int getIMUdata(){
+void getIMUdata(){
 //  sensors_event_t orientationData , angVelocityData , linearAccelData, magnetometerData, accelerometerData, gravityData;
 //  bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
 //  bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
@@ -7,7 +7,16 @@ int getIMUdata(){
 //  bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
 //  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
 //  bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
-  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+//  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+    imu::Vector<3> grav = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+//  void printEvent(sensors_event_t* event) {
+    
+//        Serial.print("Accl:");
+          xGrav = grav.x();
+          yGrav = grav.y();
+          zGrav = grav.z(); 
+//    }
+ 
 //  z = euler.z();
 }
 /**************************************************************************/

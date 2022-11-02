@@ -1,4 +1,5 @@
 void throttle(){
+  
 //  if (kill != 1) {
     ESC.write(flapRate);
 //  }
@@ -11,8 +12,12 @@ void trim(){
 //    servo1.write(180);
 //  }
 //  else servo1.write(0);
-  
-  servo2.write(birdsEyeY); // for manual direct control with sticks
+    double scaleGrav = (xGrav + 9.81);
+    scaleGrav = scaleGrav/(2*9.81);
+    float sendGrav = 180*scaleGrav;
+    servo2.write(sendGrav);
+
+//  servo2.write(birdsEyeY); // for manual direct control with sticks
 }
 void roll(){
 //  birdsEyeY = birdsEyeY/10;
