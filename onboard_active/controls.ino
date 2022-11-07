@@ -12,6 +12,8 @@ void trim(){
 //    servo1.write(180);
 //  }
 //  else servo1.write(0);
+
+
     double scaleGrav = (xGrav + 9.81);
     scaleGrav = scaleGrav/(2*9.81);
     float sendGrav = 180*scaleGrav;

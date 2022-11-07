@@ -129,8 +129,7 @@ void setup() {
 void loop() {
   /*** Main Logic ***/
   if (kill == 1) {ESC.write(0);}
-//  calib();
-//  checkHall();
+  checkHall();
   getIMUdata();
 //  if (radio.receiveDone()){ // Got one!
 //    getRemotePacket();
@@ -138,7 +137,6 @@ void loop() {
 //  else{  sendOnboardPacket(); }
 //  throttle();
   trim();
-//    Tolerance for y gravity component. Desired: x = 0
  
 //  roll();
   /*** End Main Logic ***/
@@ -149,22 +147,9 @@ void loop() {
   Serial.print(yGrav);
   Serial.print(" |\tz= ");
   Serial.println(zGrav);
-  
-  /* Radio Dynamic Variables */
-//  static int i = 0;
-//  int j;
-//  char buf[32];
-//  char data[PACKSIZE];
-//  static int sendlength = 0;
-//  dataXmitLCD();
-// Serial.println(analogRead(hall1));
-//  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
     imu::Vector<3> grav = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-//  z = euler.z();
-//  Serial.println(euler.z());
 //  dataOut();
-//  delay(1000);
-//  dataXmitLCD();
+
 
 }
 

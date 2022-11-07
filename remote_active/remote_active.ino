@@ -200,7 +200,6 @@ void setup() {
 }
 
 void loop() {
-  
   /****************** Main Logic *****************/
     killCheck();
     readSticks();
@@ -223,19 +222,7 @@ void loop() {
         lastBirdsEyeY = birdsEyeY;
     }
   /**************** End Main Logic ****************/
-//  Serial.println(digitalRead(kSwitch));
-  //  sendRemotePacket(packSize);
-  //  printSticksSerial();
-  //  printSticksSendingSerial();
-  //  printSticksLcd();
-  //  printStickDirs();
   //  getPacket();
-  //  Serial.print("x: ");
-  //  Serial.print(birdsEyeX);
-  //  Serial.print("y: ");
-  //  Serial.println(birdsEyeY);
-  //  sendRemotePacket();
-  //  Serial.println(sizeof(test));
 }
 
 /* function:  initPins() - all of the pin initialization lines, 
