@@ -221,8 +221,9 @@ void loop() {
         lastBirdsEyeX = birdsEyeX;
         lastBirdsEyeY = birdsEyeY;
     }
+    // This needs fixing, but not a priority. For now we won't take data back.
+    //  getPacket();
   /**************** End Main Logic ****************/
-  //  getPacket();
 }
 
 /* function:  initPins() - all of the pin initialization lines, 
