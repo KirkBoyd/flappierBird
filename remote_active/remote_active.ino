@@ -194,6 +194,8 @@ void setup() {
   lcd.init(); //initialize again? (Idk this was in the example)
   lcd.backlight(); //activate backlight on the screen
   lcd.print("Robomote Init");
+  lcd.setCursor(0,1);
+  lcd.print("CA-CAAAAAAAWWWW!");
   
   /* Testing */
 

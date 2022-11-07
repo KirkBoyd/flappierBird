@@ -1,3 +1,21 @@
+/* function: printCtrlsLcd() -  prints all relevant bird values to LCD screen on remote*/ 
+void printCtrlsLcd(){
+  trim();
+  lean();
+  // first line
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("K:");
+  lcd.print(kill);
+  lcd.print(" Lean: ");
+  lcd.print(leanVal);
+  // second line
+  lcd.setCursor(0,1);
+//  lcd.print("Bx");
+//  lcd.print(data_robomote.Bx);
+//  lcd.print("y");
+//  lcd.print(data_robomote.By);
+}
 /* function: printTrigs() - print joystick button/trigger values */
 void printTrigs(){
     Serial.print("TrigA: ");
