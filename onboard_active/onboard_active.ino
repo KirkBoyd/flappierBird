@@ -86,6 +86,9 @@ double yGravTol;
 int leanAmt = birdsEyeX + 90;
 int minLean = 15;
 int maxLean = 165;
+int cruiseOffset = 40; // Extra tilt to add to trim servo for maintaining altitude
+int leanCtrOffset = 10;
+int escMin = 50;
 
 /*********** MAIN CODE **************/
 void setup() {
@@ -99,7 +102,7 @@ void setup() {
   servo1.attach(srv1);
   servo2.attach(srv2);
   ESC.attach(esc);
-  ESC.write(5);
+  ESC.write(escMin);
   delay(2000);
   servo1.write(90);
   servo2.write(90);
@@ -131,7 +134,8 @@ void setup() {
 
 void loop() {
   /*** Main Logic ***/
-  if (kill == 1) {ESC.write(0);}
+  if ( kill == 1 || flapRate < escMin ) {flapRate = escMin;}
+  ESC.write(flapRate);
   checkHall();
   getIMUdata();
   if (radio.receiveDone()){ // Got one!
@@ -139,7 +143,7 @@ void loop() {
   }
   // This needs fixing, but not a priority. For now we won't take data back.
 //  else{  sendOnboardPacket(); }
-//  throttle();
+  throttle();
   trim();
   lean();
 //  roll();

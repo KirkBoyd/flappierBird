@@ -1,5 +1,6 @@
 void throttle(){
 //  if (kill != 1) {
+    
     ESC.write(flapRate);
 //  }
 }
@@ -11,14 +12,14 @@ void trim(){
 //  }
 //  else servo1.write(0);
     
-    int trimOffset = birdsEyeY + 80;
+    int trimOffset = birdsEyeY + 90;
     if (trimOffset < 0) {trimOffset = 0;}
-    else if (trimOffset > 160) { trimOffset = 160;}
-    trimOffset = trimOffset - 80;
+    else if (trimOffset > 180) { trimOffset = 180;}
+    trimOffset = trimOffset - 90;
     double scaleGrav = (xGrav + 9.81);
     scaleGrav = scaleGrav/(2*9.81);
     float sendGrav = 180*scaleGrav;
-    servo2.write(sendGrav + trimOffset);
+    servo2.write(sendGrav + trimOffset + cruiseOffset);
 
 //  servo2.write(birdsEyeY); // for manual direct control with sticks
 }
@@ -37,8 +38,9 @@ void roll(){
 void lean(){
   leanAmt = birdsEyeX*(-1) + 90;
   if ( leanAmt < minLean ){ leanAmt = minLean; }
-  else if ( leanAmt > maxLean ) { leanAmt = maxLean; }  
-  servo1.write( leanAmt );
+  else if ( leanAmt > maxLean ) { leanAmt = maxLean; } 
+//  Serial.println(leanAmt);
+  servo1.write( leanAmt - leanCtrOffset );
 }
 void calib(){
   servo1.write(90);
