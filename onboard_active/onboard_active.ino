@@ -89,6 +89,7 @@ int maxLean = 165;
 int cruiseOffset = 40; // Extra tilt to add to trim servo for maintaining altitude
 int leanCtrOffset = 10;
 int escMin = 50;
+int leanVal;
 
 /*********** MAIN CODE **************/
 void setup() {

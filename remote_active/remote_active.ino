@@ -172,6 +172,13 @@ int accelY;
 int accelZ;
 int hallData;
 int cruiseRate = 100; // GUESSED FOR NOW: Flap rate to hold altitude / cruise
+int leanAmt = birdsEyeX + 90;
+int minLean = 15;
+int maxLean = 165;
+int cruiseOffset = 40; // Extra tilt to add to trim servo for maintaining altitude
+int leanCtrOffset = 10;
+int escMin = 50;
+int leanVal;
 
 void setup() {
   initPins();
@@ -179,7 +186,13 @@ void setup() {
   Serial.begin(9600);
   Serial.print("Starting...\n");
   Serial.println("Robomote Init");
-
+  
+  /* LCD and Serial */
+  lcd.init(); //initialize LCD screen
+  lcd.init(); //initialize again? (Idk this was in the example)
+  lcd.backlight(); //activate backlight on the screen
+  lcd.print("Robomote Init");
+  
   /* Init Radio */
   randomSeed(analogRead(0));
   Serial.print("Node ");
@@ -187,42 +200,43 @@ void setup() {
   Serial.println(" ready");
   radio.initialize(FREQUENCY, MYNODEID, NETWORKID); // Initialize the RFM69HCW:
   radio.setHighPower(); // Always use this for RFM69HCW
-  if (ENCRYPT) radio.encrypt(ENCRYPTKEY); // Turn on encryption if desired:
-
-  /* LCD and Serial */
-  lcd.init(); //initialize LCD screen
-  lcd.init(); //initialize again? (Idk this was in the example)
-  lcd.backlight(); //activate backlight on the screen
-  lcd.print("Robomote Init");
-  lcd.setCursor(0,1);
+  if (ENCRYPT) radio.encrypt(ENCRYPTKEY); // Turn on encryption if desired  
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
   lcd.print("CA-CAAAAAAAWWWW!");
-  
+  delay(1000);
+  lcd.clear();
   /* Testing */
-
 }
 
 void loop() {
   /****************** Main Logic *****************/
-    killCheck();
-    readSticks();
-    stickDirections();
+    killCheck(); // check kill switch
+    readSticks(); // read joysticks 
+    stickDirections(); // count up or down according to direction
     if (data_robomote.Btrig == 1){ // if right trigger is pressed, come home
-      birdsEyeX = 5000;
-      birdsEyeY = 5000;
+      birdsEyeX = 5000; // becomes 0 onboard (to avoid sending negative values)
+      birdsEyeY = 5000; // becomes 0 onboard
     }
     if (data_robomote.Atrig == 1){ // if left trigger is pressed, set to cruise flapRate
       flapRate = cruiseRate;
     }
-    birdsEyeMap();
-    throttleCheck();
+    birdsEyeMap(); // (probably needs rewriting) moves virtual setpoint according to stick B directions
+    throttleCheck(); // changes flap rate according to direction of left stick vertical
     packSize = getPackSize(kill,flapRate,birdsEyeX,birdsEyeY);
-    if (kill) { sendRemotePacket(); }
+    if (kill) { 
+      sendRemotePacket();
+      printCtrlsLcd(); 
+    }
     else if (packetChanged()) { 
         sendRemotePacket(); 
         lastFlapRate = flapRate;
         lastBirdsEyeX = birdsEyeX;
         lastBirdsEyeY = birdsEyeY;
+        printCtrlsLcd();
     }
+    
     // This needs fixing, but not a priority. For now we won't take data back.
     //  getPacket();
   /**************** End Main Logic ****************/
