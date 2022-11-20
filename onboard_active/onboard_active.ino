@@ -87,7 +87,7 @@ int leanAmt = birdsEyeX + 90;
 int minLean = 15;
 int maxLean = 165;
 int cruiseOffset = 40; // Extra tilt to add to trim servo for maintaining altitude
-int leanCtrOffset = 10;
+int leanCtrOffset = -13; //0; //-38 + 14 - 16 + 38;
 int escMin = 50;
 int leanVal;
 
@@ -105,7 +105,7 @@ void setup() {
   ESC.attach(esc);
   ESC.write(escMin);
   delay(2000);
-  servo1.write(90);
+  servo1.write(90 + leanCtrOffset);
   servo2.write(90);
   
   /* Init Radio */

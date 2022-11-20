@@ -11,11 +11,17 @@
 //}
 //function: lean()
 // adjust angle of tail fin about body (not trim) acccording to stick B x axis
-void lean(){
- leanAmt = birdsEyeX*(-1) + 90;
+void lean(){ 
+//  Serial.print("birdsEyeX:");
+//  Serial.print(birdsEyeX); 
+  leanAmt = (birdsEyeX-5000)*(-1) + 90;
   if ( leanAmt < minLean ){ leanAmt = minLean; }
   else if ( leanAmt > maxLean ) { leanAmt = maxLean; } 
-//  Serial.println(leanAmt);
-  leanVal = leanAmt - leanCtrOffset;
+//  Serial.print(" leanAmt:");
+//  Serial.print(leanAmt);
+  leanVal = leanAmt + leanCtrOffset;
+  leanBias = leanVal - 90 + (-1)*leanCtrOffset; // how far from center is the tail
+//  Serial.print(" leanVal:");
+//  Serial.println(leanVal);
 //  servo1.write( leanVal );
 }

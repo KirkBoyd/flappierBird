@@ -17,7 +17,7 @@ void birdsEyeMap() {
 
 /* function: throttleCheck() - reads stick A up and down to control flapRate */
 void throttleCheck(){
-  if (kill) { flapRate = 0; }
+  if (kill) { flapRate = escMin; }
   else{
     if (flapRate < 255 && stickDirAy > 0) {flapRate++; }
     else if (flapRate > 0 && stickDirAy < 0) { flapRate--; }

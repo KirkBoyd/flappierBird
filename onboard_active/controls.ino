@@ -31,7 +31,7 @@ void lean(){
   if ( leanAmt < minLean ){ leanAmt = minLean; }
   else if ( leanAmt > maxLean ) { leanAmt = maxLean; } 
 //  Serial.println(leanAmt);
-  leanVal = leanAmt - leanCtrOffset;
+  leanVal = leanAmt + leanCtrOffset;
   servo1.write( leanVal );
 }
 

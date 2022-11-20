@@ -171,14 +171,15 @@ int accelX;
 int accelY;
 int accelZ;
 int hallData;
-int cruiseRate = 100; // GUESSED FOR NOW: Flap rate to hold altitude / cruise
+int cruiseRate = 69 + 5 +7; // GUESSED FOR NOW: Flap rate to hold altitude / cruise
 int leanAmt = birdsEyeX + 90;
 int minLean = 15;
 int maxLean = 165;
 int cruiseOffset = 40; // Extra tilt to add to trim servo for maintaining altitude
-int leanCtrOffset = 10;
+int leanCtrOffset = -13; //0; //-38 + 16 + 14 + 38;
 int escMin = 50;
-int leanVal;
+int leanVal = leanAmt - leanCtrOffset;
+int leanBias = 0;
 
 void setup() {
   initPins();
@@ -189,7 +190,7 @@ void setup() {
   
   /* LCD and Serial */
   lcd.init(); //initialize LCD screen
-  lcd.init(); //initialize again? (Idk this was in the example)
+//  lcd.init(); //initialize again? (Idk this was in the example)
   lcd.backlight(); //activate backlight on the screen
   lcd.print("Robomote Init");
   
@@ -213,6 +214,7 @@ void setup() {
 void loop() {
   /****************** Main Logic *****************/
     killCheck(); // check kill switch
+    if (flapRate < escMin) {flapRate = escMin;}
     readSticks(); // read joysticks 
     stickDirections(); // count up or down according to direction
     if (data_robomote.Btrig == 1){ // if right trigger is pressed, come home
@@ -225,6 +227,7 @@ void loop() {
     birdsEyeMap(); // (probably needs rewriting) moves virtual setpoint according to stick B directions
     throttleCheck(); // changes flap rate according to direction of left stick vertical
     packSize = getPackSize(kill,flapRate,birdsEyeX,birdsEyeY);
+    lean();
     if (kill) { 
       sendRemotePacket();
       printCtrlsLcd(); 

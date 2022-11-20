@@ -1,17 +1,17 @@
 /* function: printCtrlsLcd() -  prints all relevant bird values to LCD screen on remote*/ 
 void printCtrlsLcd(){
 //  trim();
-  lean();
+//  lean();
   
   lcd.clear();
   lcd.setCursor(0,0); // first line
   lcd.print("K:");
   lcd.print(kill);
   lcd.print("     Lean:");
-  lcd.print(leanVal);
+  lcd.print(leanBias);
   lcd.setCursor(0,1); // second line
   lcd.print("Rate:");
-  lcd.print(flapRate-100);
+  lcd.print(flapRate);
 }
 /* function: printTrigs() - print joystick button/trigger values */
 void printTrigs(){
