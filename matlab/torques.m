@@ -1,7 +1,8 @@
 %% Torques %%
+% Placeholder name ^^ final name TBD
 % Kirk Boyd
 % Created 11/18/2022
-% Modified 11/18/2022
+% Modified 11/20/2022
 clc;clear;close all;set(0,'DefaultFigureWindowStyle','docked');set(0,'defaultTextInterpreter','latex');
 
 %% Setup
